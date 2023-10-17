@@ -5,6 +5,12 @@ import csv
 import os
 from datetime import datetime
 import time
+import pyttsx3
+
+def say_name(name):
+    engine = pyttsx3.init()
+    engine.say("Identification confirmed as " + name)
+    engine.runAndWait()
 
 video_capture = cv2.VideoCapture(0)
 
@@ -62,6 +68,7 @@ while True:
                         print(students)
                         current_time_str = now.strftime("%H-%M-%S")
                         lnwriter.writerow([name,current_time_str])
+                        say_name(name)  # Say the name
         cv2.imshow("attendance system", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
