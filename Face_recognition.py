@@ -8,21 +8,17 @@ import time
 
 video_capture = cv2.VideoCapture(0)
 
-bubu_image = face_recognition.load_image_file("photos/bubu.jpg")
-bubu_encoding = face_recognition.face_encodings(bubu_image)[0]
-
-dida_image = face_recognition.load_image_file("photos/bubu.jpg")
-dida_encoding = face_recognition.face_encodings(dida_image)[0]
-
-known_face_encoding = [
-    bubu_encoding,
-    dida_encoding
-]
-
-known_face_names = [
-    "bubu",
-    "dida"
-]
+# Load images and create encodings
+photo_dir = "photos"
+known_face_encodings = []
+known_face_names = []
+for filename in os.listdir(photo_dir):
+    if filename.endswith(".jpg") or filename.endswith(".png"):
+        name = os.path.splitext(filename)[0]
+        image = face_recognition.load_image_file(os.path.join(photo_dir, filename))
+        encoding = face_recognition.face_encodings(image)[0]
+        known_face_encodings.append(encoding)
+        known_face_names.append(name)
 
 students = known_face_names.copy()
 
@@ -52,9 +48,9 @@ while True:
             face_encodings = face_recognition.face_encodings(rgb_small_frame)
             face_names = []
             for face_encoding in face_encodings:
-                matches = face_recognition.compare_faces(known_face_encoding, face_encoding)
+                matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
                 name = ""
-                face_distance = face_recognition.face_distance(known_face_encoding, face_encoding)
+                face_distance = face_recognition.face_distance(known_face_encodings, face_encoding)
                 best_match_index = np.argmin(face_distance)
                 if matches[best_match_index]:
                     name = known_face_names[best_match_index]
