@@ -51,7 +51,7 @@ lnwriter = csv.writer(f)
 
 # Set start and end times for detection period (in seconds)
 start_time = time.time()
-end_time = start_time + 60  # 1 hour later
+end_time = start_time + 15  # 1 hour later
 
 while True:
     current_time = time.time()
