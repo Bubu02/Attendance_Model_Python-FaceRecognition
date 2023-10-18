@@ -84,6 +84,7 @@ while True:
             break
     else:
         # After end time, mark remaining students as absent and send them a message on WhatsApp
+        absent_students = []
         for student in students:
             lnwriter.writerow([student, 'Absent'])
             # Get the phone number of the student from the dictionary
@@ -91,6 +92,14 @@ while True:
             if phone_number is not None:
                 # Send a WhatsApp message to the student
                 kit.sendwhatmsg_instantly(phone_no=phone_number, message='You were marked absent today.')
+                absent_students.append(student)
+
+        # Send a WhatsApp message to the warden with the names of all absent students
+        if absent_students:
+            absent_students_str = ', '.join(absent_students)
+            kit.sendwhatmsg_instantly(phone_no='warden_phonenumber', message=f'The following students were absent today: {absent_students_str}')
+
+                
         break
 
 video_capture.release()
