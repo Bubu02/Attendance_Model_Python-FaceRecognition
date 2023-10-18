@@ -6,11 +6,18 @@ import os
 from datetime import datetime
 import time
 import pyttsx3
+import pywhatkit as kit
+import json
 
 def say_name(name):
     engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    # Use the second voice (usually female on Windows)
+    engine.setProperty('voice', voices[1].id)
     engine.say("Identification confirmed as " + name)
     engine.runAndWait()
+
+
 
 video_capture = cv2.VideoCapture(0)
 
@@ -18,6 +25,9 @@ video_capture = cv2.VideoCapture(0)
 photo_dir = "photos"
 known_face_encodings = []
 known_face_names = []
+# Load student names and phone numbers from a JSON file
+with open('students_phone_numbers.json', 'r') as f:
+    students_phone_numbers = json.load(f)
 for filename in os.listdir(photo_dir):
     if filename.endswith(".jpg") or filename.endswith(".png"):
         name = os.path.splitext(filename)[0]
@@ -41,7 +51,7 @@ lnwriter = csv.writer(f)
 
 # Set start and end times for detection period (in seconds)
 start_time = time.time()
-end_time = start_time + 15  # 1 hour later
+end_time = start_time + 60  # 1 hour later
 
 while True:
     current_time = time.time()
@@ -73,9 +83,14 @@ while True:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
-        # After end time, mark remaining students as absent
+        # After end time, mark remaining students as absent and send them a message on WhatsApp
         for student in students:
             lnwriter.writerow([student, 'Absent'])
+            # Get the phone number of the student from the dictionary
+            phone_number = students_phone_numbers.get(student, None)
+            if phone_number is not None:
+                # Send a WhatsApp message to the student
+                kit.sendwhatmsg_instantly(phone_no=phone_number, message='You were marked absent today.')
         break
 
 video_capture.release()
