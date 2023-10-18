@@ -37,7 +37,6 @@ pip install face_recognition opencv-python numpy pyttsx3 pywhatkit
 {
     "student1": "+911111111111",
     "student2": "+912222222222"
-    // Add more students here
 }
 ```
 
