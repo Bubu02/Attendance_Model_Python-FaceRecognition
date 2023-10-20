@@ -42,14 +42,6 @@ pip install face_recognition opencv-python numpy pyttsx3 pywhatkit
 
 Replace `"student1"` and `"student2"` with the actual student names and `"+911111111111"` and `"+912222222222"` with their actual phone numbers.
 
-3. Run the script:
-
-```bash
-python script.py
-```
-
-The script will start the webcam, recognize students' faces, mark their attendance, and send a WhatsApp message to absent students.
-
 ## Important Note
 
 Sensitive files containing personal data have been removed from this project for privacy reasons. Users need to add their own data (photos and phone numbers) to use this system.
