@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 import time
 import pyttsx3
-import pywhatkit as kit
+# import pywhatkit as kit
 import json
 
 def say_name(name):
@@ -88,16 +88,16 @@ while True:
         for student in students:
             lnwriter.writerow([student, 'Absent'])
             # Get the phone number of the student from the dictionary
-            phone_number = students_phone_numbers.get(student, None)
-            if phone_number is not None:
+            # phone_number = students_phone_numbers.get(student, None)
+            # if phone_number is not None:
                 # Send a WhatsApp message to the student
-                kit.sendwhatmsg_instantly(phone_no=phone_number, message='You were marked absent today.')
-                absent_students.append(student)
+                # kit.sendwhatmsg_instantly(phone_no=phone_number, message='You were marked absent today.')
+                # absent_students.append(student)
 
         # Send a WhatsApp message to the warden with the names of all absent students
-        if absent_students:
-            absent_students_str = ', '.join(absent_students)
-            kit.sendwhatmsg_instantly(phone_no='warden_phonenumber', message=f'The following students were absent today: {absent_students_str}')
+        # if absent_students:
+        #     absent_students_str = ', '.join(absent_students)
+        #     kit.sendwhatmsg_instantly(phone_no='warden_phonenumber', message=f'The following students were absent today: {absent_students_str}')
 
                 
         break
